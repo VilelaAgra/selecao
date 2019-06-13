@@ -10,17 +10,26 @@ public class Tracks {
 	LocalTime pausa = LocalTime.of(12, 0);
 	LocalTime iniTarde = LocalTime.of(13, 0);
 	LocalTime networking = LocalTime.of(17, 0);
-	
-	Palestras tracks = new Palestras();
-	
-	public void organiza (ArrayList<String> palestras, ArrayList<Integer> duracao) throws IOException {
-		
-		trackAManha(palestras, duracao);
-		
+
+	public void organiza(ArrayList<String> palestras, ArrayList<Integer> duracao) throws IOException {
+
+		Palestras manhaA = new Palestras();
+		Palestras tardeA = new Palestras();
+		Palestras manhaB = new Palestras();
+		Palestras tardeB = new Palestras();
+
+		Arquivo arquivo = new Arquivo();
+		arquivo.escreveArquivo(
+				trackAManha(palestras, duracao, manhaA),
+				trackATarde(palestras, duracao, tardeA),
+				trackBManha(palestras, duracao, manhaB),
+				trackBtarde(palestras, duracao, tardeB)
+		);
+
 	}
 
-	public void trackAManha(ArrayList<String> palestras, ArrayList<Integer> duracao) throws IOException {
-		
+	public Palestras trackAManha(ArrayList<String> palestras, ArrayList<Integer> duracao, Palestras manhaA) {
+
 		for (int i = 0; i < palestras.size(); i++) {
 
 			iniManha = iniManha.plusMinutes(duracao.get(i));
@@ -28,31 +37,23 @@ public class Tracks {
 			if (iniManha.isAfter(pausa)) {
 				iniManha = iniManha.minusMinutes(duracao.get(i));
 			} else {
-				tracks.getTemas().add(palestras.get(i));
-				tracks.getDuracao().add(duracao.get(i));
-				tracks.getHorario().add(iniManha);
-				tracks.setAlmocoA(tracks.getHorario().size()-1);
-				System.out.println("FINAL PARA O ALMOCO " + tracks.getAlmocoA());
-
+				manhaA.getTemas().add(palestras.get(i));
+				manhaA.getDuracao().add(duracao.get(i));
 			}
 		}
-
 		for (int i = 0; i < palestras.size(); i++) {
-
-			for (int j = 0; j < tracks.getTemas().size(); j++) {
-				if (palestras.get(i).equals(tracks.getTemas().get(j))) {
+			for (int j = 0; j < manhaA.getTemas().size(); j++) {
+				if (palestras.get(i).equals(manhaA.getTemas().get(j))) {
 					palestras.remove(palestras.get(i));
 					duracao.remove(duracao.get(i));
-					
-
 				}
 			}
 		}
-		trackATarde(palestras, duracao, tracks);
+		return manhaA;
 	}
 
-	public void trackATarde(ArrayList<String> palestras, ArrayList<Integer> duracao, Palestras tracks) throws IOException {
-		
+	public Palestras trackATarde(ArrayList<String> palestras, ArrayList<Integer> duracao, Palestras tardeA) {
+
 		// TARDE A
 		for (int i = 0; i < palestras.size(); i++) {
 
@@ -61,31 +62,27 @@ public class Tracks {
 			if (iniTarde.isAfter(networking)) {
 				iniTarde = iniTarde.minusMinutes(duracao.get(i));
 			} else {
-				tracks.getTemas().add(palestras.get(i));
-				tracks.getDuracao().add(duracao.get(i));
-				tracks.getHorario().add(iniTarde);
-				tracks.setFinalA(tracks.getHorario().size()-1);
-				System.out.println("FINAL A " + tracks.getFinalA());
+				tardeA.getTemas().add(palestras.get(i));
+				tardeA.getDuracao().add(duracao.get(i));
 			}
 		}
+
 		for (int i = 0; i < palestras.size(); i++) {
 
-			for (int j = 0; j < tracks.getTemas().size(); j++) {
-				if (palestras.get(i).equals(tracks.getTemas().get(j))) {
+			for (int j = 0; j < tardeA.getTemas().size(); j++) {
+				if (palestras.get(i).equals(tardeA.getTemas().get(j))) {
 					palestras.remove(palestras.get(i));
 					duracao.remove(duracao.get(i));
-
 				}
 			}
-		}			
-		trackBtarde(palestras, duracao, tracks);
+		}
+		return tardeA;
 	}
-	
 
-	public void trackBtarde(ArrayList<String> palestras, ArrayList<Integer> duracao, Palestras tracks) throws IOException {
-		
+	public Palestras trackBtarde(ArrayList<String> palestras, ArrayList<Integer> duracao, Palestras tardeB) {
+
 		LocalTime iniTarde = LocalTime.of(13, 0);
-		//TARDE B
+		// TARDE B
 		for (int i = 0; i < palestras.size(); i++) {
 
 			iniTarde = iniTarde.plusMinutes(duracao.get(i));
@@ -94,29 +91,27 @@ public class Tracks {
 				iniTarde = iniTarde.minusMinutes(duracao.get(i));
 
 			} else {
-				tracks.getTemas().add(palestras.get(i));
-				tracks.getDuracao().add(duracao.get(i));
-				tracks.getHorario().add(iniTarde);
-				tracks.setFinalB(tracks.getHorario().size()-1);
-				System.out.println("FINAL B " + tracks.getFinalB());
+				tardeB.getTemas().add(palestras.get(i));
+				tardeB.getDuracao().add(duracao.get(i));
 			}
 		}
-
 		for (int i = 0; i < palestras.size(); i++) {
-			for (int j = 0; j < tracks.getTemas().size(); j++) {
-				if (palestras.get(i).equals(tracks.getTemas().get(j))) {
+			for (int j = 0; j < tardeB.getTemas().size(); j++) {
+				if (palestras.get(i).equals(tardeB.getTemas().get(j))) {
 					palestras.remove(palestras.get(i));
 					duracao.remove(duracao.get(i));
+
 				}
 			}
 		}
-		trackBManha(palestras, duracao, tracks);
+		return tardeB;
+
 	}
 
-	public void trackBManha(ArrayList<String> palestras, ArrayList<Integer> duracao, Palestras tracks) throws IOException {
+	public Palestras trackBManha(ArrayList<String> palestras, ArrayList<Integer> duracao, Palestras manhaB){
 
 		LocalTime iniManha = LocalTime.of(9, 0);
-		
+
 		for (int i = 0; i < palestras.size(); i++) {
 
 			iniManha = iniManha.plusMinutes(duracao.get(i));
@@ -124,27 +119,22 @@ public class Tracks {
 			if (iniManha.isAfter(pausa)) {
 				iniManha = iniManha.minusMinutes(duracao.get(i));
 			} else {
-				tracks.getTemas().add(palestras.get(i));
-				tracks.getDuracao().add(duracao.get(i));
-				tracks.getHorario().add(iniManha);
-				tracks.setAlmocoB(tracks.getHorario().size()-1);
-				System.out.println("FINAL PARA O ALMOCO B " + tracks.getAlmocoB());
+				manhaB.getTemas().add(palestras.get(i));
+				manhaB.getDuracao().add(duracao.get(i));
 			}
 		}
-
 		for (int i = 0; i < palestras.size(); i++) {
-			for (int j = 0; j < tracks.getTemas().size(); j++) {
-				if (palestras.get(i).equals(tracks.getTemas().get(j))) {
+			for (int j = 0; j < manhaB.getTemas().size(); j++) {
+				if (palestras.get(i).equals(manhaB.getTemas().get(j))) {
 					palestras.remove(palestras.get(i));
 					duracao.remove(duracao.get(i));
-
 				}
 			}
 		}
-		Arquivo arquivo = new Arquivo();
-		arquivo.escreveArquivo(tracks);
-		
-	}	
+
+		return manhaB;
+
+	}
 }
 
 //https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html#remove-int-

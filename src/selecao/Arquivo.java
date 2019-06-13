@@ -34,67 +34,64 @@ public class Arquivo {
 
 	}
 
-	public void escreveArquivo(Palestras tracks) throws IOException {
-
-		LocalTime inicio = LocalTime.of(9, 0);
-		LocalTime almoco = LocalTime.of(12, 0);
-		LocalTime retorno = LocalTime.of(13, 0);
-		LocalTime networking = LocalTime.of(17, 0);
+	public void escreveArquivo(Palestras manhaA, Palestras tardeA, Palestras manhaB, Palestras tardeB)
+			throws IOException {
 
 		BufferedWriter buffWriter = new BufferedWriter(new FileWriter("tracks.txt"));
+		
+		LocalTime inicio = LocalTime.of(9, 0);
+		LocalTime retorno = LocalTime.of(13, 0);
 
-		for (int i = 0; i < tracks.getTemas().size(); i++) {
-			
-			if (i <= tracks.getAlmocoA() && i <= tracks.getFinalA()) {
-				
-				if (i == (tracks.getAlmocoA() - tracks.getAlmocoA())) {
-					buffWriter.write("Track A\n");
-				}
-				
-				buffWriter.write(inicio + " " + tracks.getTemas().get(i));
-				inicio = inicio.plusMinutes(tracks.getDuracao().get(i));
-				
-				if (i == tracks.getAlmocoA()) {
-					buffWriter.write("\n12:00 Almoço\n");
-					inicio = retorno;
-				}
+		for (int i = 0; i < manhaA.getTemas().size(); i++) {
+			if (i == 0) {
+				buffWriter.write("Track A: \n");
 			}
-			
-			if (i == (tracks.getFinalA() - tracks.getAlmocoA())) {
-				buffWriter.write(inicio + " " + tracks.getTemas().get(i));
+			buffWriter.write(inicio + " " + manhaA.getTemas().get(i));
+			inicio = inicio.plusMinutes(manhaA.getDuracao().get(i));
+			buffWriter.newLine();
+		}
+
+		inicio = LocalTime.of(9, 0);
+		retorno = LocalTime.of(13, 0);
+
+		for (int i = 0; i < tardeA.getTemas().size(); i++) {
+			if (i == 0) {
+				buffWriter.write("12:00 Almoço\n");
 			}
-//			if (i <= tracks.getFinalA()) {
-//				buffWriter.write(inicio + " " + tracks.getTemas().get(i));
-//				inicio = inicio.plusMinutes(tracks.getDuracao().get(i));
-//			}
-//			if (i == tracks.getFinalA()) {
-//				buffWriter.write("\n17:00 Evento de Networking\n");
-//				buffWriter.write("Track B\n");
-//			}
-
-			
-//			if (i >= tracks.getFinalB()) {
-//				if (i == (tracks.getAlmocoB() - tracks.getAlmocoB())) {
-//					buffWriter.write("Track B\n");
-//				}
-//				buffWriter.write(inicio + " " + tracks.getTemas().get(i));
-//				inicio = inicio.plusMinutes(tracks.getDuracao().get(i));
-//				if (i == tracks.getAlmocoA()) {
-//					buffWriter.write("\n12:00 Almoço\n");
-//					inicio = retorno;
-//				}
-//			}
-//			if (i < tracks.getFinalA()) {
-//				buffWriter.write(inicio + " " + tracks.getTemas().get(i));
-//				inicio = inicio.plusMinutes(tracks.getDuracao().get(i));
-//			}
-//			if (i == tracks.getFinalA()) {
-//				buffWriter.write("17:00 Evento de Networking\n");
-//			}
-
+			buffWriter.write(retorno + " " + tardeA.getTemas().get(i));
+			retorno = retorno.plusMinutes(tardeA.getDuracao().get(i));
 			buffWriter.newLine();
 
 		}
+		buffWriter.write("17:00 Evento de Networking\n");
+
+		inicio = LocalTime.of(9, 0);
+		retorno = LocalTime.of(13, 0);
+
+		for (int i = 0; i < manhaB.getTemas().size(); i++) {
+			if (i == 0) {
+				buffWriter.write("Track B: \n");
+			}
+			buffWriter.write(inicio + " " + manhaB.getTemas().get(i));
+			inicio = inicio.plusMinutes(manhaB.getDuracao().get(i));
+			buffWriter.newLine();
+		}
+
+		inicio = LocalTime.of(9, 0);
+		retorno = LocalTime.of(13, 0);
+
+		for (int i = 0; i < tardeB.getTemas().size(); i++) {
+
+			if (i == 0) {
+				buffWriter.write("12:00 Almoço\n");
+			}
+			buffWriter.write(retorno + " " + tardeB.getTemas().get(i));
+			retorno = retorno.plusMinutes(tardeB.getDuracao().get(i));
+			buffWriter.newLine();
+
+		}
+		buffWriter.write("17:00 Evento de Networking\n");
+
 
 		buffWriter.close();
 	}

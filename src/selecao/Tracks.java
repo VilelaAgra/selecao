@@ -6,9 +6,8 @@ import java.util.ArrayList;
 
 public class Tracks {
 
-	LocalTime iniManha = LocalTime.of(9, 0);
+	
 	LocalTime pausa = LocalTime.of(12, 0);
-	LocalTime iniTarde = LocalTime.of(13, 0);
 	LocalTime networking = LocalTime.of(17, 0);
 
 	public void organiza(ArrayList<String> palestras, ArrayList<Integer> duracao) throws IOException {
@@ -29,7 +28,7 @@ public class Tracks {
 	}
 
 	public Palestras trackAManha(ArrayList<String> palestras, ArrayList<Integer> duracao, Palestras manhaA) {
-
+		LocalTime iniManha = LocalTime.of(9, 0);
 		for (int i = 0; i < palestras.size(); i++) {
 
 			iniManha = iniManha.plusMinutes(duracao.get(i));
@@ -53,7 +52,7 @@ public class Tracks {
 	}
 
 	public Palestras trackATarde(ArrayList<String> palestras, ArrayList<Integer> duracao, Palestras tardeA) {
-
+		LocalTime iniTarde = LocalTime.of(13, 0);
 		// TARDE A
 		for (int i = 0; i < palestras.size(); i++) {
 
@@ -100,7 +99,6 @@ public class Tracks {
 				if (palestras.get(i).equals(tardeB.getTemas().get(j))) {
 					palestras.remove(palestras.get(i));
 					duracao.remove(duracao.get(i));
-
 				}
 			}
 		}

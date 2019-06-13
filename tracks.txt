@@ -1,0 +1,22 @@
+Track A
+09:00 Diminuindo tempo de execução de testes em aplicações Rails enterprise 60min
+10:00 Reinventando a roda em ASP clássico 45min
+10:45 Apresentando Lua para as massas 30min
+11:15 Erros de Ruby oriundos de versões erradas de gems 45min
+12:00 Almoço
+
+
+
+13:00 Trabalho remoto: prós e cons 60min
+
+
+
+
+
+
+
+
+
+
+
+
